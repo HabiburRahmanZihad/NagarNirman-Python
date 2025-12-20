@@ -1,0 +1,16 @@
+{
+  "hixurul": {
+    "password_hash": "b2fe8b46929bfa4c65fee9d5d43a2423799b18e360782e9abc27bd420877243e",
+    "email": "huhiwal@mailinator.com",
+    "full_name": "Caleb Bates",
+    "role": "user",
+    "created_at": "2025-12-20 19:38:03"
+  },
+  "tagutyr": {
+    "password_hash": "b2fe8b46929bfa4c65fee9d5d43a2423799b18e360782e9abc27bd420877243e",
+    "email": "bikocysag@mailinator.com",
+    "full_name": "Sheila Griffin",
+    "role": "user",
+    "created_at": "2025-12-20 20:20:54"
+  }
+}
