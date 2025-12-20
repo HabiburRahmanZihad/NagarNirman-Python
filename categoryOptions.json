@@ -1,0 +1,51 @@
+{
+  "Road & Infrastructure Issues": [
+    "Broken/uneven roads",
+    "Potholes",
+    "Damaged footpaths/sidewalks",
+    "Blocked drains/gutters"
+  ],
+  "Lighting & Electrical": [
+    "Faulty streetlights",
+    "Exposed wires",
+    "Broken traffic signals"
+  ],
+  "Garbage & Sanitation": [
+    "Overflowing garbage bins",
+    "Illegal dumping",
+    "Unremoved waste",
+    "Dirty public spaces"
+  ],
+  "Water Supply & Leakage": [
+    "Water pipe leaks",
+    "Low water pressure",
+    "Unrepaired tanks/lines"
+  ],
+  "Public Facilities": [
+    "Damaged benches/seating",
+    "Broken playgrounds/parks",
+    "Public toilet maintenance"
+  ],
+  "Environmental Hazards": [
+    "Waterlogging/flooding",
+    "Air pollution/smoke",
+    "Noise pollution"
+  ],
+  "Safety Issues": [
+    "Unmarked construction",
+    "Unsafe crossings/zebra crossings",
+    "Broken fences/walls"
+  ],
+  "Health & Hygiene": [
+    "Mosquito breeding spots",
+    "Unclean markets/slaughterhouses"
+  ],
+  "Transport": [
+    "Broken bus stops",
+    "Unmaintained cycle lanes",
+    "Inaccessible walkways"
+  ],
+  "Other (General/Custom)": [
+    "Specify any issue not covered above"
+  ]
+}
