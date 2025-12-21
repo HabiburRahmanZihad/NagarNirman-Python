@@ -17,6 +17,11 @@ def show_login_page():
             success, message = AuthManager.login(username, password)
             if success:
                 st.success(message)
+                # Redirect based on role
+                if AuthManager.is_admin():
+                    st.session_state.current_page = "admin"
+                else:
+                    st.session_state.current_page = "home"
                 st.rerun()
             else:
                 st.error(message)
