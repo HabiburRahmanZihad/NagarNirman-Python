@@ -20,30 +20,60 @@ class UIManager:
     
     @staticmethod
     def load_css(file_path="assets/style.css"):
-        """Loads custom CSS and handles theme switching."""
+        """Loads custom CSS and handles theme switching via direct variable injection."""
         theme = UIManager.get_theme()
         
+        # Define theme variables in Python for reliable injection
+        if theme == 'light':
+            vars_css = """
+                :root {
+                    --color-primary: #004540;
+                    --color-secondary: #2a7d2f;
+                    --color-accent: #f2a921;
+                    --color-neutral: #6B7280;
+                    --color-base-100: #FFFFFF;
+                    --color-base-200: #F3F4F6;
+                    --color-base-300: #F6FFF9;
+                    --color-info: #002E2E;
+                    --color-warning: #fbbf24;
+                    --color-success: #81d586;
+                    --text-color: #1a1a1a;
+                    --text-muted: #666666;
+                    --card-bg: rgba(255, 255, 255, 0.95);
+                    --border-color: rgba(0, 0, 0, 0.1);
+                    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                }
+            """
+        else:
+            vars_css = """
+                :root {
+                    --color-primary: #2a7d2f;
+                    --color-secondary: #9ad83e;
+                    --color-accent: #ffcc33;
+                    --color-neutral: #E5E7EB;
+                    --color-base-100: #0f1a16;
+                    --color-base-200: #1b2a25;
+                    --color-base-300: #243832;
+                    --color-info: #D1FAE5;
+                    --color-warning: #fbbf24;
+                    --color-success: #81d586;
+                    --text-color: #E0E0E0;
+                    --text-muted: #aaaaaa;
+                    --card-bg: rgba(255, 255, 255, 0.03);
+                    --border-color: rgba(255, 255, 255, 0.1);
+                    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                }
+            """
+
         # Load base CSS from file
         base_css = ""
         if os.path.exists(file_path):
             with open(file_path) as f:
                 base_css = f.read()
         
-        # Inject theme attribute and combined CSS
-        # IMPORTANT: Do not indent the HTML tags inside the triple quotes
-        # as Streamlit will interpret them as markdown code blocks.
-        injection_html = f"""
-<script>
-    var stApp = window.parent.document.querySelector('.stApp');
-    if (stApp) {{
-        stApp.setAttribute('data-theme', '{theme}');
-    }}
-</script>
-<style>
-{base_css}
-</style>
-"""
-        st.markdown(injection_html, unsafe_allow_html=True)
+        # Inject theme variables and combined CSS
+        # IMPORTANT: No leading whitespace for the style tag to avoid markdown parsing issues
+        st.markdown(f"<style>\n{vars_css}\n{base_css}\n</style>", unsafe_allow_html=True)
 
     
     @staticmethod
