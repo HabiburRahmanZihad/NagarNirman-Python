@@ -7,6 +7,7 @@ from views.report import show_report_page
 from views.admin import show_admin_page
 from views.my_reports import show_my_reports_page
 from views.auth import show_login_page, show_register_page
+from views.about import show_about_page
 
 # 1. Page Configuration (Must be first)
 st.set_page_config(
@@ -44,6 +45,8 @@ elif current_page == "my_reports":
     show_my_reports_page()
 elif current_page == "submit_report":
     show_report_page()
+elif current_page == "about":
+    show_about_page()
 elif current_page == "admin":
     show_admin_page()
 else:

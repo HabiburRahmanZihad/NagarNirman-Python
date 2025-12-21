@@ -202,7 +202,7 @@ class UIManager:
                 is_admin = AuthManager.is_admin()
                 
                 # Dynamic column count based on visibility
-                visible_items = ["Home"]
+                visible_items = ["Home", "About"]
                 if is_auth and not is_admin: 
                     visible_items.extend(["Report", "My Reports"])
                 if is_admin: 
@@ -220,6 +220,13 @@ class UIManager:
                 if nav_cols[curr_col].button("🏠 Home", use_container_width=True, key="nav_home",
                                      type="primary" if st.session_state.current_page == "home" else "secondary"):
                     st.session_state.current_page = "home"
+                    st.rerun()
+                curr_col += 1
+
+                # 1b. About (Always visible)
+                if nav_cols[curr_col].button("ℹ️ About", use_container_width=True, key="nav_about",
+                                     type="primary" if st.session_state.current_page == "about" else "secondary"):
+                    st.session_state.current_page = "about"
                     st.rerun()
                 curr_col += 1
                 
