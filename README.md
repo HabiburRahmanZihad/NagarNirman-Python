@@ -1,82 +1,110 @@
 # 🏗️ NagarNirman
 
-**NagarNirman** is a modern, "Boss UI" (Premier User Interface) city management system designed to streamline infrastructure reporting and administration. Built with **Streamlit**, it provides a platform for citizens to report issues like potholes, waste, and more, while giving authorities a powerful dashboard to manage them.
+**Empowering Citizens. Enhancing Cities. Engineering Change.**
 
-## 🌟 Features
-
--   **Glassmorphism Design**: A premium, dark-themed UI with translucent cards and vibrant accents.
--   **Interactive Map**: A visual representation of reports across the city.
--   **Role-Based Views**:
-    -   **Citizen**: Submit reports with titles, types, descriptions, and location data.
-    -   **Admin**: View all reports, filter by status, and update resolution status (Pending → Resolved).
--   **Modular Architecture**: Clean, industry-standard "Boss Code" structure (MVC pattern).
-
-## 📂 Project Structure
-
-This project follows a clean, modular architecture:
-
-```text
-NagarNirman/
-├── app.py                  # 🚀 Main entry point of the application
-├── assets/
-│   └── style.css           # 🎨 Custom CSS for the "Boss UI" look
-├── utils/
-│   ├── data_manager.py     # 💾 Handles data operations (Mock DB simulation)
-│   └── ui_manager.py       # 🖌️ Reusable UI components & styling helpers
-├── views/
-│   ├── dashboard.py        # 📊 Home & Map view logic
-│   ├── report.py           # 📝 Report submission form logic
-│   └── admin.py            # 👮 Admin dashboard & management logic
-├── requirements.txt        # 📦 Project dependencies
-└── README.md               # 📖 Project documentation
-```
-
-## 🚀 Getting Started
-
-Follow these steps to run the project locally.
-
-### Prerequisites
-
--   Python 3.8 or higher installed.
-
-### Installation
-
-1.  **Clone the repository** (if applicable) or download the source.
-2.  **Navigate to the project directory**:
-    ```bash
-    cd "d:/Python-program/Python projects/NagarNirman"
-    ```
-3.  **Install Dependencies**:
-    *You can create a virtual environment first if you prefer.*
-    ```bash
-    pip install streamlit pandas
-    ```
-
-### Running the App
-
-Run the application using the Streamlit CLI:
-
-```bash
-streamlit run app.py
-```
-
-*Note: Do not run `main.py` if it exists (it is legacy). use `app.py`.*
-
-## 🛠️ Tech Stack
-
--   **Frontend/Backend**: [Streamlit](https://streamlit.io/) (Python)
--   **Data Processing**: Pandas
--   **Styling**: Custom CSS (Glassmorphism & Neomorphism elements)
--   **Icons**: [Icons8](https://icons8.com/) (Embedded)
-
-## 🤝 Contributing
-
-1.  Fork the repository.
-2.  Create a feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+NagarNirman is a community-first city management platform designed to bridge the gap between citizens and urban infrastructure management. Built with Python and Streamlit, it provides a transparent, efficient, and user-friendly ecosystem for reporting local issues, triaging tasks, and analyzing urban impact.
 
 ---
 
-**© 2025 NagarNirman** | Built with Python 🐍 & Passion ❤️
+## 🌟 Key Features
+
+- **💎 Glassmorphism UI**: A premium, modern interface with frosted-glass effects and vibrant accents for an immersive experience.
+- **📝 Intelligent Reporting**: Seamless form for citizens to report infrastructure, safety, or service issues with photo uploads and location tagging.
+- **⚡ Real-time Triage**: Streamlined workflows for volunteers and admins to review, assign, and resolve reports.
+- **📊 Impact Analytics**: Data-driven insights and PDF report generation for administrators to monitor urban health.
+- **🔒 Secure Access**: Role-based access control (RBAC) ensuring appropriate visibility for Citizens, Volunteers, and Admins.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend/Backend**: [Streamlit](https://streamlit.io/) (Python-based Web Framework)
+- **Data Persistence**: JSON-based lightweight database (easily swappable for SQL/NoSQL)
+- **Styling**: Custom CSS with Glassmorphism principles
+- **PDF Generation**: Robust reporting utilities for administrative use
+
+---
+
+## 📂 Project Structure
+
+```text
+NagarNirman/
+├── app.py                # Application entry point & routing
+├── assets/               # CSS styles, logos, and static assets
+├── utils/                # Auth, Data Management, and UI Helpers
+├── views/                # Modular Page Views (Dashboard, Admin, Reports)
+└── data/ (JSON)          # Local storage for reports and user sessions
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- pip (Python Package Installer)
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/HabiburRahmanZihad/NagarNirman.git
+   cd NagarNirman
+   ```
+
+2. **Set up a virtual environment (Recommended):**
+   ```bash
+   python -m venv .venv
+   # Windows:
+   .venv\Scripts\activate
+   # Linux/macOS:
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Launch the application:**
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 👥 Meet the Dream Team
+
+The visionaries and builders behind NagarNirman.
+
+| Profile | Member Details |
+| :--- | :--- |
+| <img src="https://res.cloudinary.com/dvq3pcykn/image/upload/v1758785330/IMG-20241101-WA0192_vyojiv.jpg" width="120" style="border-radius:12px;"> | **Habibur Rahman Zihad**<br>*Founder & Community Director*<br>**Vision & Strategy Lead**<br>The visionary behind NagarNirman, driving community engagement and strategic direction. Passionate about leveraging technology to solve civic problems.<br>🔗 [GitHub](https://github.com/HabiburRahmanZihad) • [LinkedIn](https://linkedin.com/in/habiburrahmanzihad) • [Portfolio](https://habibur-rahman-zihad.vercel.app/) |
+| <img src="https://avatars.githubusercontent.com/u/102473526?v=4" width="120" style="border-radius:12px;"> | **Md. Shahariar Hafiz**<br>*Co-Founder & Tech Lead*<br>**Full Stack & Architecture**<br>Technical mastermind orchestrating the entire ecosystem. Specializes in scalable architecture and cutting-edge development practices.<br>🔗 [GitHub](https://github.com/mdshahariarhafizofficial) • [LinkedIn](https://www.linkedin.com/in/devshahariarhafiz) • [Portfolio](https://shahariar-hafiz.netlify.app/) |
+| <img src="https://avatars.githubusercontent.com/u/193724330?v=4" width="120" style="border-radius:12px;"> | **MD Mizanur Malita**<br>*Operations Manager*<br>**Process & Quality Lead**<br>Ensures seamless operations and maintains highest quality standards. Expert in optimizing workflows and delivering exceptional user experiences.<br>🔗 [GitHub](https://github.com/mizanur2734) • [LinkedIn](https://www.linkedin.com/in/md-mizanur-malita) • [Portfolio](https://my-portfolio-4wlb.vercel.app/) |
+| <img src="https://res.cloudinary.com/dfm0bhtyb/image/upload/v1765699151/qmbjzklvweuy3brrnt3v.png" width="120" style="border-radius:12px;"> | **Mohammad Bin Amin**<br>*Outreach Coordinator*<br>**Community & Growth Lead**<br>Bridges technology and community. Drives user adoption and ensures NagarNirman reaches every corner of the community through strategic outreach.<br>🔗 [GitHub](https://github.com/Mohammad7558/) • [LinkedIn](https://www.linkedin.com/in/iammohammad) • [Portfolio](https://iam-mohammad.vercel.app/) |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Whether it's a bug fix, feature request, or UI improvement:
+
+1. **Fork** the repository.
+2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. **Open** a Pull Request.
+
+---
+
+## 📬 Contact & Support
+
+For inquiries, support, or to join our mission:
+📧 **Email:** [hello@nagar-nirman.org](mailto:hello@nagar-nirman.org)
+🌐 **Website:** [nagar-nirman.org](https://nagar-nirman.org)
+
+---
+
+**© 2025 NagarNirman** — Crafted with ❤️ by the NagarNirman Team.
