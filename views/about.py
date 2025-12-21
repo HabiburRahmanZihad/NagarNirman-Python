@@ -158,17 +158,18 @@ def show_about_page():
     style = textwrap.dedent("""
     <style>
     .about-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 12px; }
-    .about-card { padding: 20px; border-radius: 14px; min-height: 300px; display:flex; flex-direction:column; gap:12px; color: var(--text-primary); background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.02)); border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 12px 36px rgba(0,0,0,0.55); transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s; overflow: hidden; position: relative; }
+    .about-card { padding: 20px; border-radius: 14px; min-height: 340px; display:flex; flex-direction:column; gap:12px; color: var(--text-primary); background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.02)); border: 1px solid rgba(255,255,255,0.04); box-shadow: 0 12px 36px rgba(0,0,0,0.55); transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s; overflow: hidden; position: relative; }
     .about-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); pointer-events: none; }
     .about-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 28px 70px rgba(0,0,0,0.7); }
-    .about-card .meta { display:flex; gap:16px; align-items:center; }
-    .about-card img { width:120px; height:120px; object-fit:cover; border-radius:16px; border:4px solid rgba(255,255,255,0.06); box-shadow: 0 10px 30px rgba(0,0,0,0.55); transition: transform .28s ease, box-shadow .28s ease; }
-    .about-card:hover img { transform: rotate(-4deg) scale(1.04); }
-    .about-card .name { font-weight:800; font-size:1.05rem; letter-spacing:0.2px; }
-    .about-card .role { font-size:0.88rem; opacity:0.95; }
+    .about-card .meta { display:flex; gap:18px; align-items:center; }
+    .about-card img { width:140px; height:140px; object-fit:cover; border-radius:12px; border:4px solid rgba(255,255,255,0.06); box-shadow: 0 12px 34px rgba(0,0,0,0.55); transition: transform .28s ease, box-shadow .28s ease; }
+    .about-card:hover img { transform: rotate(-3deg) scale(1.03); }
+    .about-card .name { font-weight:900; font-size:1.12rem; letter-spacing:0.2px; }
+    .about-card .role { font-size:0.9rem; opacity:0.95; }
     .about-card .subrole { font-size:0.78rem; opacity:0.78; }
+    .about-card .bio { margin-top:10px; font-size:0.96rem; line-height:1.45; opacity:0.96; }
     .about-card .skills { margin-top:10px; font-size:0.9rem; opacity:0.95; }
-    .badge { position:absolute; top:12px; right:12px; background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)); padding:6px 10px; border-radius:999px; font-weight:700; font-size:0.78rem; box-shadow: 0 8px 20px rgba(0,0,0,0.45); }
+    .about-card .links { margin-top:10px; }
     .about-card .links a { color: var(--color-accent, #9ad83e); text-decoration: none; margin-right: 12px; font-weight:700; }
     @media (max-width: 1100px) { .about-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 820px) { .about-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -180,18 +181,18 @@ def show_about_page():
     for member in TEAM_MEMBERS:
         grad = f"linear-gradient(135deg, {member['accentColor']}22, rgba(0,0,0,0.05))"
         card_html = f"""
-        <div class="about-card" style="background: {grad};">
+        <div class="about-card" style="background: {grad}; border-left: 6px solid {member['accentColor']}; padding-left: 14px;">
             <div class="meta">
                 <img src="{member['image']}" alt="{member['name']}">
                 <div>
-                    <div style="font-weight:700; font-size:1rem;">{member['name']}</div>
-                    <div style="font-size:0.85rem; opacity:0.9;">{member['role']}</div>
-                    <div style="font-size:0.75rem; opacity:0.7;">{member['subRole']}</div>
+                    <div class="name">{member['name']}</div>
+                    <div class="role">{member['role']}</div>
+                    <div class="subrole">{member['subRole']}</div>
                 </div>
             </div>
-            <div style="flex:1; margin-top:8px; font-size:0.9rem; opacity:0.95;">{member['bio']}</div>
-            <div style="font-size:0.85rem; margin-top:8px;"><b>Skills:</b> {', '.join(member['skills'])}</div>
-            <div class="links" style="margin-top:8px;">
+            <div class="bio">{member['bio']}</div>
+            <div class="skills"><b>Skills:</b> {', '.join(member['skills'])}</div>
+            <div class="links">
                 <a href="{member['social'].get('linkedin', '#')}" target="_blank">LinkedIn</a>
                 <a href="{member['social'].get('github', '#')}" target="_blank">GitHub</a>
                 <a href="{member['social'].get('portfolio', '#')}" target="_blank">Portfolio</a>
