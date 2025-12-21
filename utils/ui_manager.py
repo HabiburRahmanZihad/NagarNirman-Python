@@ -321,3 +321,53 @@ class UIManager:
             """,
             unsafe_allow_html=True
         )
+    
+    @staticmethod
+    def render_report_cards_grid(reports, columns=4):
+        """Renders report cards in a grid format with specified number of columns."""
+        if not reports:
+            st.info("No reports to display.")
+            return
+        
+        # Process reports in batches of 'columns' count
+        for i in range(0, len(reports), columns):
+            # Create a row with the specified number of columns
+            cols = st.columns(columns)
+            
+            # Fill each column with a report card
+            for j, col in enumerate(cols):
+                report_index = i + j
+                if report_index < len(reports):
+                    with col:
+                        report = reports[report_index]
+                        status_color = "#00CC96" if report['status'] == 'Resolved' else "#FF4B4B"
+                        icon = "✅" if report['status'] == 'Resolved' else "⏳"
+                        
+                        # Handle both old 'type' and new 'category' fields
+                        category = report.get('category', report.get('type', 'N/A'))
+                        subcategory = report.get('subcategory', '')
+                        category_display = f"{category}" + (f" - {subcategory}" if subcategory else "")
+                        
+                        # Handle location display
+                        division = report.get('division', 'N/A')
+                        district = report.get('district', 'N/A')
+                        location_display = f"📍 {district}, {division}"
+                        
+                        st.markdown(
+                            f"""
+                            <div class="report-card-grid" style="border-left-color: {status_color}">
+                                <h4 style="margin:0; color: white; font-size: 1em;">{icon} {report['title']} <span style="font-size: 0.7em; opacity: 0.7; float:right;">#{report['id']}</span></h4>
+                                <p style="margin: 5px 0 0 0; font-size: 0.75em; color: #aaa;">
+                                    <b>{category_display}</b>
+                                </p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.7em; color: #888;">
+                                    {report['date']} | <b style="color:{status_color}">{report['status']}</b>
+                                </p>
+                                <p style="margin: 3px 0 0 0; font-size: 0.7em; color: #888;">
+                                    {location_display}
+                                </p>
+                                <p style="font-size: 0.75em; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{report['description']}</p>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )

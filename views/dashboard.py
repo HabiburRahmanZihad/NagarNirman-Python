@@ -33,6 +33,5 @@ def show_dashboard():
 
     # Recent Reports
     st.subheader("📝 Recent Reports")
-    # Show last 5 reversed
-    for report in reversed(reports[-5:]):
-        UIManager.render_report_card(report)
+    # Show all reports in grid format (4 columns)
+    UIManager.render_report_cards_grid(list(reversed(reports)), columns=4)

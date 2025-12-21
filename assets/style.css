@@ -44,6 +44,34 @@ div.stMetric:hover {
     border-left-color: #00CC96;
 }
 
+/* Grid Card for Reports */
+.report-card-grid {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left: 5px solid #FF4B4B;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    height: 100%;
+    min-height: 180px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.report-card-grid:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(255, 75, 75, 0.2);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.report-card-grid.resolved {
+    border-left-color: #00CC96;
+}
+
+.report-card-grid.resolved:hover {
+    box-shadow: 0 8px 20px rgba(0, 204, 150, 0.2);
+}
+
 /* Sidebar Styling */
 section[data-testid="stSidebar"] {
     background-color: #161B22;
