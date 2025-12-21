@@ -71,5 +71,4 @@ def show_my_reports_page():
     with tab2:
         # Card view
         st.markdown("### Recent Reports")
-        for report in reversed(my_reports):
-            UIManager.render_report_card(report)
+        UIManager.render_report_cards_grid(list(reversed(my_reports)), columns=4)

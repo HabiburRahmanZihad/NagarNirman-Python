@@ -20,171 +20,31 @@ class UIManager:
     
     @staticmethod
     def load_css(file_path="assets/style.css"):
-        """Loads custom CSS from a file based on current theme."""
+        """Loads custom CSS and handles theme switching."""
         theme = UIManager.get_theme()
         
-        # Load base CSS
+        # Load base CSS from file
+        base_css = ""
         if os.path.exists(file_path):
             with open(file_path) as f:
                 base_css = f.read()
-        else:
-            base_css = ""
         
-        # Navbar CSS
-        navbar_css = """
-        /* Navbar Styling */
-        .navbar {
-            background: rgba(22, 27, 34, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .navbar-logo img {
-            height: 50px;
-            width: 50px;
-            border-radius: 8px;
-        }
-        
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(45deg, #FF4B4B, #FF914D);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .navbar-menu {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .nav-button {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 6px;
-            color: #E0E0E0;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .nav-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #FF4B4B;
-            transform: translateY(-2px);
-        }
-        
-        .nav-button-active {
-            background: linear-gradient(90deg, #FF4B4B 0%, #FF914D 100%);
-            border-color: #FF4B4B;
-            color: white;
-        }
-        
-        .user-badge {
-            background: rgba(102, 126, 234, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.4);
-            padding: 6px 12px;
-            border-radius: 20px;
-            color: #E0E0E0;
-            font-size: 14px;
-        }
-        
-        /* Hide sidebar toggle */
-        [data-testid="collapsedControl"] {
-            display: none;
-        }
-        """
-        
-        # Theme-specific CSS
-        if theme == 'light':
-            theme_css = """
-            /* Light Theme Overrides */
-            .stApp {
-                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
-            }
-            
-            .navbar {
-                background: rgba(255, 255, 255, 0.95) !important;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
-            }
-            
-            .nav-button {
-                background: rgba(0, 0, 0, 0.05) !important;
-                border: 1px solid rgba(0, 0, 0, 0.1) !important;
-                color: #1a1a1a !important;
-            }
-            
-            .nav-button:hover {
-                background: rgba(0, 0, 0, 0.1) !important;
-            }
-            
-            .user-badge {
-                background: rgba(102, 126, 234, 0.15) !important;
-                border: 1px solid rgba(102, 126, 234, 0.3) !important;
-                color: #1a1a1a !important;
-            }
-            
-            h1, h2, h3, h4, h5, h6, p, span, div, label {
-                color: #1a1a1a !important;
-            }
-            
-            .stMarkdown {
-                color: #1a1a1a !important;
-            }
-            
-            .report-card {
-                background: rgba(255, 255, 255, 0.9) !important;
-                border: 1px solid rgba(0, 0, 0, 0.1) !important;
-                color: #1a1a1a !important;
-            }
-            
-            .report-card h4, .report-card p {
-                color: #1a1a1a !important;
-            }
-            
-            /* Input fields */
-            .stTextInput > div > div > input,
-            .stTextArea > div > div > textarea {
-                background-color: rgba(255, 255, 255, 0.9) !important;
-                color: #1a1a1a !important;
-                border: 1px solid rgba(0, 0, 0, 0.2) !important;
-            }
-            
-            /* Buttons */
-            .stButton > button {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-                color: white !important;
-            }
-            
-            /* Metrics */
-            [data-testid="stMetricValue"] {
-                color: #1a1a1a !important;
-            }
-            """
-        else:
-            theme_css = ""
-        
-        # Apply combined CSS
-        st.markdown(f'<style>{base_css}\n{navbar_css}\n{theme_css}</style>', unsafe_allow_html=True)
+        # Inject theme attribute and combined CSS
+        # IMPORTANT: Do not indent the HTML tags inside the triple quotes
+        # as Streamlit will interpret them as markdown code blocks.
+        injection_html = f"""
+<script>
+    var stApp = window.parent.document.querySelector('.stApp');
+    if (stApp) {{
+        stApp.setAttribute('data-theme', '{theme}');
+    }}
+</script>
+<style>
+{base_css}
+</style>
+"""
+        st.markdown(injection_html, unsafe_allow_html=True)
+
     
     @staticmethod
     def render_navbar():
@@ -308,12 +168,12 @@ class UIManager:
         
         st.markdown(
             f"""
-            <div class="report-card" style="border-left-color: {status_color}">
-                <h4 style="margin:0; color: white;">{icon} {report['title']} <span style="font-size: 0.8em; opacity: 0.7; float:right;">#{report['id']}</span></h4>
-                <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #aaa;">
-                    <b>{category_display}</b> | {report['date']} | Status: <b style="color:{status_color}">{report['status']}</b>
+            <div class="report-card {'resolved' if report['status'] == 'Resolved' else ''}">
+                <h4 style="margin:0;">{icon} {report['title']} <span style="font-size: 0.8em; opacity: 0.7; float:right;">#{report['id']}</span></h4>
+                <p style="margin: 5px 0 0 0; font-size: 0.9em; opacity: 0.8;">
+                    <b>{category_display}</b> | {report['date']} | Status: <b>{report['status']}</b>
                 </p>
-                <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #888;">
+                <p style="margin: 5px 0 0 0; font-size: 0.85em; opacity: 0.7;">
                     {location_display}
                 </p>
                 <p style="font-size: 0.9em; margin-top: 10px;">{report['description']}</p>
@@ -355,15 +215,15 @@ class UIManager:
                         
                         st.markdown(
                             f"""
-                            <div class="report-card-grid" style="border-left-color: {status_color}">
-                                <h4 style="margin:0; color: white; font-size: 1em;">{icon} {report['title']} <span style="font-size: 0.7em; opacity: 0.7; float:right;">#{report['id']}</span></h4>
-                                <p style="margin: 5px 0 0 0; font-size: 0.75em; color: #aaa;">
+                            <div class="report-card-grid {'resolved' if report['status'] == 'Resolved' else ''}">
+                                <h4 style="margin:0; font-size: 1em;">{icon} {report['title']} <span style="font-size: 0.7em; opacity: 0.7; float:right;">#{report['id']}</span></h4>
+                                <p style="margin: 5px 0 0 0; font-size: 0.75em; opacity: 0.8;">
                                     <b>{category_display}</b>
                                 </p>
-                                <p style="margin: 3px 0 0 0; font-size: 0.7em; color: #888;">
-                                    {report['date']} | <b style="color:{status_color}">{report['status']}</b>
+                                <p style="margin: 3px 0 0 0; font-size: 0.7em; opacity: 0.7;">
+                                    {report['date']} | <b>{report['status']}</b>
                                 </p>
-                                <p style="margin: 3px 0 0 0; font-size: 0.7em; color: #888;">
+                                <p style="margin: 3px 0 0 0; font-size: 0.7em; opacity: 0.7;">
                                     {location_display}
                                 </p>
                                 <p style="font-size: 0.75em; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">{report['description']}</p>

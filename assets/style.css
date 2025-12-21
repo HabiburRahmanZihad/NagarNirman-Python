@@ -1,25 +1,70 @@
+/* === Theme Variables === */
+:root {
+    /* Default to light theme values as base */
+    --color-primary: #004540;
+    --color-secondary: #2a7d2f;
+    --color-accent: #f2a921;
+    --color-neutral: #6B7280;
+    --color-base-100: #FFFFFF;
+    --color-base-200: #F3F4F6;
+    --color-base-300: #F6FFF9;
+    --color-info: #002E2E;
+    --color-warning: #fbbf24;
+    --color-success: #81d586;
+    --text-color: #1a1a1a;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --color-primary: #2a7d2f;
+    --color-secondary: #9ad83e;
+    --color-accent: #ffcc33;
+    --color-neutral: #E5E7EB;
+    --color-base-100: #0f1a16;
+    --color-base-200: #1b2a25;
+    --color-base-300: #243832;
+    --color-info: #D1FAE5;
+    --color-warning: #fbbf24;
+    --color-success: #81d586;
+    --text-color: #E0E0E0;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Main Background and Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-html, body, [class*="css"] {
+html,
+body,
+[class*="css"],
+.stApp {
     font-family: 'Poppins', sans-serif;
-    color: #E0E0E0;
+    color: var(--text-color);
 }
 
 /* Hide Streamlit Branding */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
+#MainMenu {
+    visibility: hidden;
+}
 
-/* GLassmorphism Card Style */
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}
+
+/* Base App Styling */
 .stApp {
-    background-color: #0E1117;
-    background-image: radial-gradient(circle at 50% 50%, #1f2937 0%, #0E1117 100%);
+    background-color: var(--color-base-100);
+    background-image: radial-gradient(circle at 50% 50%, var(--color-base-200) 0%, var(--color-base-100) 100%);
 }
 
 div.stMetric {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -28,71 +73,77 @@ div.stMetric {
 
 div.stMetric:hover {
     transform: translateY(-2px);
-    border-color: #FF4B4B;
+    border-color: var(--color-primary);
 }
 
 /* Custom Card for Reports */
 .report-card {
-    background-color: rgba(255, 255, 255, 0.03);
-    border-left: 5px solid #FF4B4B;
+    background-color: var(--card-bg);
+    border-left: 5px solid var(--color-primary);
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 5px;
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .report-card.resolved {
-    border-left-color: #00CC96;
+    border-left-color: var(--color-success);
 }
 
 /* Grid Card for Reports */
 .report-card-grid {
-    background-color: rgba(255, 255, 255, 0.03);
-    border-left: 5px solid #FF4B4B;
+    background-color: var(--card-bg);
+    border-left: 5px solid var(--color-primary);
     padding: 12px;
     margin-bottom: 15px;
     border-radius: 8px;
     height: 100%;
     min-height: 180px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
 }
 
 .report-card-grid:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(255, 75, 75, 0.2);
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 69, 64, 0.2);
+    background-color: var(--color-base-300);
+    border: 1px solid var(--color-primary);
 }
 
 .report-card-grid.resolved {
-    border-left-color: #00CC96;
+    border-left-color: var(--color-success);
 }
 
 .report-card-grid.resolved:hover {
-    box-shadow: 0 8px 20px rgba(0, 204, 150, 0.2);
+    box-shadow: 0 8px 20px rgba(129, 213, 134, 0.2);
 }
 
 /* Sidebar Styling */
 section[data-testid="stSidebar"] {
-    background-color: #161B22;
-    border-right: 1px solid rgba(255,255,255,0.05);
+    background-color: var(--color-base-200);
+    border-right: 1px solid var(--border-color);
 }
 
 /* Inputs */
-.stTextInput > div > div > input, .stTextArea > div > div > textarea {
-    background-color: #1F2937;
-    color: white;
-    border: 1px solid rgba(255,255,255,0.1);
+.stTextInput>div>div>input,
+.stTextArea>div>div>textarea {
+    background-color: var(--color-base-300);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
-.stSelectbox > div > div > div {
-    background-color: #1F2937;
-    color: white;
+.stSelectbox>div>div>div {
+    background-color: var(--color-base-300);
+    color: var(--text-color);
 }
 
 /* Buttons */
-.stButton > button {
-    background: linear-gradient(90deg, #FF4B4B 0%, #FF914D 100%);
+.stButton>button {
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
     color: white;
     border: none;
     border-radius: 5px;
@@ -100,15 +151,44 @@ section[data-testid="stSidebar"] {
     transition: all 0.3s;
 }
 
-.stButton > button:hover {
-    box-shadow: 0 5px 15px rgba(255, 75, 75, 0.4);
+.stButton>button:hover {
+    box-shadow: 0 5px 15px rgba(0, 69, 64, 0.4);
     transform: scale(1.02);
 }
 
 /* Titles */
-h1, h2, h3 {
-    background: -webkit-linear-gradient(45deg, #FF4B4B, #FF914D);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-info) !important;
+    font-weight: 700 !important;
+}
+
+.navbar-brand {
+    background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 700 !important;
+}
+
+/* Navbar Button Transitions */
+.nav-button {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: all 0.3s;
+}
+
+.nav-button:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.nav-button-active {
+    background: var(--color-primary) !important;
+    color: white !important;
 }
