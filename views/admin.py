@@ -1,143 +1,133 @@
 import streamlit as st
 import pandas as pd
+import base64
 from datetime import datetime
 from utils.data_manager import DataManager
-from utils.location_data import get_divisions, get_categories
+from utils.auth_manager import AuthManager
+from utils.ui_manager import UIManager
 
 def show_admin_page():
-    st.title("👮 Authority Dashboard")
-    st.markdown("Manage and resolve reported issues efficiently.")
+    """Authority Dashboard with WOW Version analytics and management tools."""
+    st.markdown('<div class="fade-in">', unsafe_allow_html=True)
     
-    reports = DataManager.get_all_reports()
-    if not reports:
-        st.info("No reports to manage.")
+    if not AuthManager.is_admin():
+        st.error("Access Denied. Admin privileges required.")
+        st.markdown('</div>', unsafe_allow_html=True)
         return
 
-    df = pd.DataFrame(reports)
+    # Hero Title
+    st.markdown("""
+        <div style="margin-bottom: var(--space-8);">
+            <h1 style="margin:0; font-size:2.8rem;">🛡️ Authority Dashboard</h1>
+            <p style="font-size:1.1rem; opacity:0.8; letter-spacing:0.02em;">Administrative control center for urban infrastructure management.</p>
+        </div>
+    """, unsafe_allow_html=True)
     
-    # Add filters for division, district, category, and status
-    st.markdown("### 🔍 Filters")
-    filter_col1, filter_col2, filter_col3, filter_col4 = st.columns(4)
+    reports = DataManager.get_all_reports()
     
-    # Get unique values for filters (handle reports without data)
-    all_divisions = ["All"] + sorted(list(set([r.get("division", "N/A") for r in reports])))
-    all_districts = ["All"] + sorted(list(set([r.get("district", "N/A") for r in reports])))
-    all_categories = ["All"] + sorted(list(set([r.get("category", r.get("type", "N/A")) for r in reports])))
-    all_statuses = ["All", "Pending", "In Progress", "Resolved", "Rejected"]
+    if not reports:
+        st.info("No reports found in the system.")
+        st.markdown('</div>', unsafe_allow_html=True)
+        return
     
-    selected_division = filter_col1.selectbox("Division", all_divisions)
-    selected_district = filter_col2.selectbox("District", all_districts)
-    selected_category = filter_col3.selectbox("Category", all_categories)
-    selected_status = filter_col4.selectbox("Status", all_statuses)
+    # BOSS Metrics Row
+    m_col1, m_col2, m_col3, m_col4 = st.columns(4)
+    total = len(reports)
+    resolved = sum(1 for r in reports if r["status"] == "Resolved")
+    pending = total - resolved
+    efficiency = (resolved/total*100) if total > 0 else 0
     
-    # Apply filters
-    filtered_df = df.copy()
-    if selected_division != "All":
-        filtered_df = filtered_df[filtered_df["division"] == selected_division]
-    if selected_district != "All":
-        filtered_df = filtered_df[filtered_df["district"] == selected_district]
-    if selected_category != "All":
-        # Handle both old 'type' and new 'category' field
-        if "category" in filtered_df.columns:
-            filtered_df = filtered_df[filtered_df["category"] == selected_category]
-        elif "type" in filtered_df.columns:
-            filtered_df = filtered_df[filtered_df["type"] == selected_category]
-    if selected_status != "All":
-        filtered_df = filtered_df[filtered_df["status"] == selected_status]
-    
-    st.markdown("---")
-    
-    # Display summary stats
-    st.markdown("### 📈 Summary")
-    stat_col1, stat_col2, stat_col3, stat_col4 = st.columns(4)
-    total_reports = len(filtered_df)
-    pending = len(filtered_df[filtered_df["status"] == "Pending"]) if "status" in filtered_df.columns else 0
-    in_progress = len(filtered_df[filtered_df["status"] == "In Progress"]) if "status" in filtered_df.columns else 0
-    resolved = len(filtered_df[filtered_df["status"] == "Resolved"]) if "status" in filtered_df.columns else 0
-    
-    stat_col1.metric("Total Reports", total_reports)
-    stat_col2.metric("Pending", pending)
-    stat_col3.metric("In Progress", in_progress)
-    stat_col4.metric("Resolved", resolved)
-    
-    st.markdown("---")
+    with m_col1:
+        UIManager.render_custom_metric("Total Reports", total, "📊")
+    with m_col2:
+        UIManager.render_custom_metric("Resolved Cases", resolved, "✅")
+    with m_col3:
+        UIManager.render_custom_metric("Pending Issues", pending, "⏳")
+    with m_col4:
+        UIManager.render_custom_metric("Efficiency", f"{efficiency:.1f}%", "📈")
 
-    # Tabs for organization
-    tab1, tab2 = st.tabs(["📊 Data Overview", "🛠️ Action Center"])
+    st.markdown('<div style="margin-top: var(--space-10);"></div>', unsafe_allow_html=True)
 
-    with tab1:
-        # Determine which columns exist and reorder
-        possible_columns = ["id", "title", "category", "subcategory", "type", "division", "district", "status", "date", "lat", "lon", "description"]
-        display_columns = [col for col in possible_columns if col in filtered_df.columns]
-        
-        # Remove 'type' if 'category' exists (avoid redundancy)
-        if "category" in display_columns and "type" in display_columns:
-            display_columns.remove("type")
-        
-        display_df = filtered_df[display_columns] if display_columns else filtered_df
-        
-        st.dataframe(
-            display_df, 
-            use_container_width=True,
-            column_config={
-                "id": st.column_config.NumberColumn("ID", width="small"),
-                "title": st.column_config.TextColumn("Title", width="medium"),
-                "category": st.column_config.TextColumn("Category", width="medium"),
-                "subcategory": st.column_config.TextColumn("Subcategory", width="medium"),
-                "type": st.column_config.TextColumn("Type", width="small"),
-                "division": st.column_config.TextColumn("Division", width="medium"),
-                "district": st.column_config.TextColumn("District", width="medium"),
-                "lat": st.column_config.NumberColumn("Latitude", format="%.4f", width="small"),
-                "lon": st.column_config.NumberColumn("Longitude", format="%.4f", width="small"),
-                "status": st.column_config.SelectboxColumn(
-                    "Status",
-                    options=["Pending", "In Progress", "Resolved", "Rejected"],
-                    disabled=True
-                ),
-                "date": st.column_config.TextColumn("Date", width="small"),
-                "description": st.column_config.TextColumn("Description", width="large")
-            }
-        )
-
-    with tab2:
-        st.subheader("Update Issue Status")
-        
-        col_select, col_action, col_btn = st.columns([3, 2, 1])
-        
-        # Dropdown options with full details
-        def get_report_label(r):
-            location = f"{r.get('district', 'N/A')}, {r.get('division', 'N/A')}"
-            category = r.get('category', r.get('type', 'N/A'))
-            return f"#{r['id']} {r['title']} | {location} | {category} ({r['status']})"
-        
-        options = {get_report_label(r): r['id'] for r in reports}
-        selected_option = col_select.selectbox("Select Report", options.keys())
-        
-        if selected_option:
-            selected_id = options[selected_option]
-            new_status = col_action.selectbox("Set New Status", ["Pending", "In Progress", "Resolved", "Rejected"])
-            
-            st.markdown(" ")
-            if col_btn.button("Update Status", use_container_width=True):
-                if DataManager.update_status(selected_id, new_status):
-                    st.success(f"Report #{selected_id} updated to {new_status}")
-                    st.rerun()
-                else:
-                    st.error("Failed to update status.")
-
-    st.markdown("---")
-    st.subheader("📥 Export Data")
+    # Management & Export
+    col_list, col_act = st.columns([7, 3])
     
-    try:
-        from utils.report_generator import ReportGenerator
+    with col_list:
+        st.markdown("### 🛠️ Active Case Management")
+        df = pd.DataFrame(reports)
+        cols = ['id', 'title', 'category', 'status', 'date']
+        # The dataframe container is styled via global CSS
+        st.dataframe(df[cols], use_container_width=True, hide_index=True)
         
-        if st.button("Generate PDF Report"):
-            pdf_bytes = ReportGenerator.generate_pdf(reports)
-            st.download_button(
-                label="Download PDF",
-                data=pdf_bytes,
-                file_name=f"nagarnirman_reports_{datetime.now().strftime('%Y%m%d')}.pdf",
-                mime="application/pdf"
-            )
-    except ImportError:
-        st.info("PDF export module not available.")
+        # BOSS Export Section
+        st.markdown('<div style="margin-top: var(--space-6);"></div>', unsafe_allow_html=True)
+        
+        export_content = """
+            <div style="display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4);">
+                <div style="font-size: 2rem;">📋</div>
+                <div>
+                    <strong style="font-size: 1.1rem; display: block; color: var(--color-primary);">System-Wide Intelligence Report</strong>
+                    <span style="font-size: 0.85rem; opacity: 0.8;">Generate a high-fidelity PDF containing all active and resolved infrastructure reports.</span>
+                </div>
+            </div>
+        """
+        UIManager.render_wow_card(export_content)
+        
+        # Lazy generation: generate PDF only when admin clicks the button.
+        # Add a small spacer so the button isn't flush against the card above.
+        st.markdown('<div style="height:18px"></div>', unsafe_allow_html=True)
+        if st.button("📥 Generate & Download System Report (PDF)", use_container_width=True, type="primary", key="admin_generate_download"):
+            pdf_data = DataManager.generate_reports_pdf(reports)
+            if pdf_data:
+                try:
+                    filename = f"NagarNirman_Report_{datetime.now().strftime('%Y%m%d')}.pdf"
+                    # Provide a direct download button (reliable) and a backup anchor link
+                    st.download_button(
+                        label="📥 Download System Report (PDF)",
+                        data=pdf_data,
+                        file_name=filename,
+                        mime="application/pdf",
+                        use_container_width=True,
+                        key="admin_download_btn_generated"
+                    )
+
+                    # Base64 link as a visible fallback (some browsers/clients may prefer it)
+                    try:
+                        b64 = base64.b64encode(pdf_data).decode('ascii')
+                        dl_html = f'<div style="margin-top:8px"><a href="data:application/pdf;base64,{b64}" download="{filename}">Click here if download does not start</a></div>'
+                        st.markdown(dl_html, unsafe_allow_html=True)
+                    except Exception:
+                        # If base64 encoding fails for very large files, skip the anchor fallback.
+                        pass
+
+                    st.success("PDF ready — use the button above to download.")
+                except Exception as e:
+                    st.error(f"Failed to prepare download: {e}")
+            else:
+                st.info("Preparing PDF engine... If this persists, please contact system admin.")
+        
+    with col_act:
+        st.markdown("### 🔄 Update Status")
+        status_form_html = """
+            <div style="padding: var(--space-1); line-height:1.6; opacity:0.9; margin-bottom:var(--space-4);">
+                Select a report ID to modify its current system status. Changes are reflected immediately across the platform.
+            </div>
+        """
+        UIManager.render_wow_card(status_form_html)
+        
+        report_ids = [str(r['id']) for r in reports]
+        selected_id = st.selectbox("Assign ID", report_ids)
+        new_status = st.selectbox("New Status", ["Pending", "In Progress", "Resolved"])
+        
+        if st.button("💾 Apply Update", use_container_width=True, type="primary"):
+            if DataManager.update_status(int(selected_id), new_status):
+                st.success(f"Report #{selected_id} updated.")
+                st.rerun()
+
+    # Detailed Audit Feed
+    st.markdown('<div style="margin-top: var(--space-12);"></div>', unsafe_allow_html=True)
+    st.markdown("## 📄 Detailed Audit Records")
+    for report in reversed(reports):
+        with st.expander(f"Audit #{report['id']} - {report['title']} ({report['status']})"):
+            UIManager.render_report_card(report)
+    
+    st.markdown('</div>', unsafe_allow_html=True) # End fade-in

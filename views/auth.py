@@ -2,16 +2,21 @@ import streamlit as st
 from utils.auth_manager import AuthManager
 
 def show_login_page():
-    """Display the login form."""
-    st.title("🔐 Login")
-    st.markdown("Welcome back! Please login to continue.")
+    """Display the login form with Boss Level UI."""
+    st.markdown('<div class="fade-in auth-container">', unsafe_allow_html=True)
+    st.markdown("""
+        <div class="glass-card">
+            <h1 style="text-align:center; margin-bottom:0;">🔐 Login</h1>
+            <p style="text-align:center; opacity:0.7; margin-bottom:2rem;">Welcome back to NagarNirman</p>
+    """, unsafe_allow_html=True)
     
-    with st.form("login_form"):
-        username = st.text_input("Username", placeholder="Enter your username")
-        password = st.text_input("Password", type="password", placeholder="Enter your password")
+    with st.form("login_form", clear_on_submit=False):
+        username = st.text_input("Username", placeholder="Username")
+        password = st.text_input("Password", type="password", placeholder="Password")
         
-        col1, col2 = st.columns([1, 1])
-        submitted = col1.form_submit_button("🔓 Login", use_container_width=True)
+        st.markdown('<div style="margin-top:1rem;">', unsafe_allow_html=True)
+        submitted = st.form_submit_button("🔓 Unlock Dashboard", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
         
         if submitted:
             success, message = AuthManager.login(username, password)
@@ -26,28 +31,38 @@ def show_login_page():
             else:
                 st.error(message)
     
-    st.markdown("---")
-    st.markdown("Don't have an account? Go to **Register** from the sidebar.")
+    st.markdown('</div>', unsafe_allow_html=True) # End glass-card
+    
+    if st.button("New here? Create an Account", use_container_width=True):
+        st.session_state.current_page = "register"
+        st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True) # End auth-container
 
 
 def show_register_page():
-    """Display the registration form."""
-    st.title("📝 Create Account")
-    st.markdown("Join NagarNirman to report and track infrastructure issues in your city.")
+    """Display the registration form with Boss Level UI."""
+    st.markdown('<div class="fade-in auth-container" style="max-width:600px;">', unsafe_allow_html=True)
+    st.markdown("""
+        <div class="glass-card">
+            <h1 style="text-align:center; margin-bottom:0;">📝 Join Us</h1>
+            <p style="text-align:center; opacity:0.7; margin-bottom:2rem;">Start making your city better today</p>
+    """, unsafe_allow_html=True)
     
     with st.form("register_form"):
         col1, col2 = st.columns(2)
+        full_name = col1.text_input("Full Name", placeholder="e.g. John Doe")
+        email = col2.text_input("Email", placeholder="e.g. john@example.com")
         
-        full_name = col1.text_input("Full Name", placeholder="Enter your full name")
-        email = col2.text_input("Email", placeholder="Enter your email address")
-        
-        username = st.text_input("Username", placeholder="Choose a unique username (min 3 characters)")
+        username = st.text_input("Unique Username", placeholder="min 3 characters")
         
         col_pass1, col_pass2 = st.columns(2)
-        password = col_pass1.text_input("Password", type="password", placeholder="Min 6 characters")
-        confirm_password = col_pass2.text_input("Confirm Password", type="password", placeholder="Re-enter password")
+        password = col_pass1.text_input("Password", type="password", placeholder="min 6 characters")
+        confirm_password = col_pass2.text_input("Verify Password", type="password", placeholder="re-enter password")
         
-        submitted = st.form_submit_button("📋 Register", use_container_width=True)
+        st.markdown('<div style="margin-top:1rem;">', unsafe_allow_html=True)
+        submitted = st.form_submit_button("🚀 Create Account", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
         
         if submitted:
             if password != confirm_password:
@@ -60,8 +75,13 @@ def show_register_page():
                 else:
                     st.error(message)
     
-    st.markdown("---")
-    st.markdown("Already have an account? Go to **Login** from the sidebar.")
+    st.markdown('</div>', unsafe_allow_html=True) # End glass-card
+    
+    if st.button("Already have an account? Login", use_container_width=True):
+        st.session_state.current_page = "login"
+        st.rerun()
+        
+    st.markdown('</div>', unsafe_allow_html=True) # End auth-container
 
 
 def show_logout_button():

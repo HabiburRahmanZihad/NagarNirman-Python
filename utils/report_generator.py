@@ -41,12 +41,13 @@ class ReportGenerator:
             pdf.cell(65, 10, report['date'], 1)
             pdf.ln()
 
-        # Output to temp file then read as bytes
-        # FPDF 1.7.2 output() returns a string in some versions, or writes to file.
-        # Safest way for Streamlit is to write to a temppath and read bytes.
-        
-        # Note: Using latin-1 encoding by default in FPDF. 
-        # If special chars are needed, unicode font setup is required. 
-        # For this demo, assuming standard english.
-        
-        return pdf.output(dest='S').encode('latin-1')
+        # Output to a string/bytes depending on FPDF version. pdf.output(dest='S')
+        # may return a `str`, `bytes` or `bytearray`. Normalize to `bytes` so
+        # Streamlit's `st.download_button` receives binary content.
+        out = pdf.output(dest='S')
+        if isinstance(out, (bytes, bytearray)):
+            return bytes(out)
+        if isinstance(out, str):
+            return out.encode('latin-1')
+        # Fallback: try to coerce to bytes
+        return bytes(out)

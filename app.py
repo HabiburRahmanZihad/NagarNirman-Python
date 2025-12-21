@@ -20,6 +20,14 @@ st.set_page_config(
 DataManager.init_db()
 AuthManager.init_session()
 UIManager.init_theme()
+
+# 3. Handle Session Persistence
+if not AuthManager.is_authenticated():
+    token = st.query_params.get('st_token')
+    if token:
+        if AuthManager.validate_session(token):
+            st.rerun()
+
 UIManager.load_css()
 
 # 3. Render Navbar
@@ -40,3 +48,5 @@ elif current_page == "admin":
     show_admin_page()
 else:
     show_dashboard()  # Default page
+# 5. Render Footer
+UIManager.render_footer()

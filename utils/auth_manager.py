@@ -11,6 +11,7 @@ from datetime import datetime
 
 class AuthManager:
     USERS_FILE = "users_db.json"
+    SESSIONS_FILE = "sessions_db.json"
     
     # Admin credentials (hardcoded)
     ADMIN_USERNAME = "admin"
@@ -40,6 +41,26 @@ class AuthManager:
                 json.dump(users, f, indent=2, ensure_ascii=False)
         except IOError as e:
             st.error(f"Failed to save user data: {e}")
+    
+    @staticmethod
+    def _load_sessions():
+        """Load sessions from JSON file."""
+        if os.path.exists(AuthManager.SESSIONS_FILE):
+            try:
+                with open(AuthManager.SESSIONS_FILE, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except (json.JSONDecodeError, IOError):
+                return {}
+        return {}
+    
+    @staticmethod
+    def _save_sessions(sessions):
+        """Save sessions to JSON file."""
+        try:
+            with open(AuthManager.SESSIONS_FILE, 'w', encoding='utf-8') as f:
+                json.dump(sessions, f, indent=2, ensure_ascii=False)
+        except IOError as e:
+            st.error(f"Failed to save session data: {e}")
     
     @staticmethod
     def init_session():
@@ -134,16 +155,80 @@ class AuthManager:
             "full_name": user_data.get("full_name", username),
             "email": user_data.get("email", "")
         }
-        st.session_state.role = "user"
+        st.session_state.role = user_data.get("role", "user")
+        
+        # Create persistent session
+        token = AuthManager.create_session(username)
+        st.session_state.session_token = token
         
         return True, f"Welcome, {user_data.get('full_name', username)}!"
+
+    @staticmethod
+    def create_session(username):
+        """Create a new session token for the user."""
+        import secrets
+        token = secrets.token_urlsafe(32)
+        sessions = AuthManager._load_sessions()
+        sessions[token] = {
+            "username": username,
+            "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        AuthManager._save_sessions(sessions)
+        return token
+
+    @staticmethod
+    def validate_session(token):
+        """Validate a session token and log in the user if valid."""
+        if not token:
+            return False
+            
+        sessions = AuthManager._load_sessions()
+        if token not in sessions:
+            return False
+            
+        session_data = sessions[token]
+        username = session_data["username"]
+        
+        # Admin check
+        if username == AuthManager.ADMIN_USERNAME:
+            st.session_state.authenticated = True
+            st.session_state.user = {"username": "admin", "full_name": "Administrator"}
+            st.session_state.role = "admin"
+            st.session_state.session_token = token
+            st.session_state.current_page = "admin"
+            return True
+            
+        # User check
+        users = AuthManager._load_users()
+        if username not in users:
+            return False
+            
+        user_data = users[username]
+        st.session_state.authenticated = True
+        st.session_state.user = {
+            "username": username,
+            "full_name": user_data.get("full_name", username),
+            "email": user_data.get("email", "")
+        }
+        st.session_state.role = user_data.get("role", "user")
+        st.session_state.session_token = token
+        st.session_state.current_page = "home"
+        return True
     
     @staticmethod
     def logout():
         """Logout the current user."""
+        token = st.session_state.get('session_token')
+        if token:
+            sessions = AuthManager._load_sessions()
+            if token in sessions:
+                del sessions[token]
+                AuthManager._save_sessions(sessions)
+        
         st.session_state.authenticated = False
         st.session_state.user = None
         st.session_state.role = None
+        st.session_state.session_token = None
     
     @staticmethod
     def is_authenticated():
