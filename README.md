@@ -6,6 +6,14 @@ NagarNirman is a community-first city management platform designed to bridge the
 
 ---
 
+## 🚀 Live Demo
+👉 https://nagar-nirman-py.streamlit.app/
+
+[![Streamlit App](https://img.shields.io/badge/Live-Streamlit-brightgreen)](https://nagar-nirman-py.streamlit.app/)
+
+
+---
+
 ## 🌟 Key Features
 
 - **💎 Glassmorphism UI**: A premium, modern interface with frosted-glass effects and vibrant accents for an immersive experience.
