@@ -8,7 +8,7 @@ TEAM_MEMBERS = [
         "subRole": "Vision & Strategy Lead",
         "bio": "The visionary behind NagarNirman, driving community engagement and strategic direction. Passionate about leveraging technology to solve civic problems and create meaningful impact across Bangladesh.",
         "image": "https://res.cloudinary.com/dvq3pcykn/image/upload/v1758785330/IMG-20241101-WA0192_vyojiv.jpg",
-        "accentColor": "#004d40",
+        "accentColor": "#9c27b0",
         "skills": ["Leadership", "Community Building", "Strategic Planning", "Project Management"],
         "contributions": ["Project Vision", "Community Outreach", "Team Coordination"],
         "social": {
@@ -21,55 +21,55 @@ TEAM_MEMBERS = [
         "quote": '\"Together we build, together we rise.\"'
     },
     {
-        "name": "Md. Shahariar Hafiz",
-        "role": "Co-Founder & Tech Lead",
-        "subRole": "Full Stack & Architecture",
+        "name": "Saimon Uddin Imam",
+        "role": "Co-Founder",
+        "subRole": "Architecture",
         "bio": "The technical mastermind orchestrating the entire NagarNirman ecosystem. Specializes in scalable architecture and cutting-edge development practices that power our civic platform.",
-        "image": "https://avatars.githubusercontent.com/u/102473526?v=4",
-        "accentColor": "#f2a921",
+        "image": "https://res.cloudinary.com/dc3ul4egd/image/upload/Screenshot_2025-12-22_181523_gftpdk.png",
+        "accentColor": "#00695c",
         "skills": ["Next.js", "Node.js", "MongoDB", "System Architecture"],
         "contributions": ["Core Development", "API Design", "Database Architecture"],
         "social": {
-            "github": "https://github.com/mdshahariarhafizofficial",
-            "linkedin": "https://www.linkedin.com/in/devshahariarhafiz",
-            "portfolio": "https://shahariar-hafiz.netlify.app/",
-            "facebook": "https://www.facebook.com/mdshahariarhafizofficial"
+            "github": "https://github.com/saimonuddinimam",
+            "linkedin": "https://www.linkedin.com/in/",
+            "portfolio": "https://-.netlify.app/",
+            "facebook": "https://www.facebook.com/saimon.uddin.imam.2024"
         },
         "funFact": "Can debug production issues at 3 AM with eyes closed",
         "quote": '\"Code is poetry, architecture is the symphony.\"'
     },
     {
-        "name": "MD Mizanur Malita",
-        "role": "Operations Manager",
-        "subRole": "Process & Quality Lead",
+        "name": "Rohit Ahemed",
+        "role": "Outreach Coordinator",
+        "subRole": "Community Lead",
         "bio": "Ensures seamless operations and maintains the highest quality standards across all NagarNirman processes. Expert in optimizing workflows and delivering exceptional user experiences.",
-        "image": "https://avatars.githubusercontent.com/u/193724330?v=4",
-        "accentColor": "#00695c",
+        "image": "https://res.cloudinary.com/dc3ul4egd/image/upload/Screenshot_2025-12-22_181621_ev1waz.png",
+        "accentColor": "#f2a921",
         "skills": ["Operations", "Quality Assurance", "Process Optimization", "Team Management"],
         "contributions": ["Quality Control", "Process Design", "User Testing"],
         "social": {
             "github": "https://github.com/mizanur2734",
-            "linkedin": "https://www.linkedin.com/in/md-mizanur-malita",
-            "portfolio": "https://my-portfolio-4wlb.vercel.app/",
-            "facebook": "https://www.facebook.com/md.mizanur.rahman.959549"
+            "linkedin": "https://www.linkedin.com/in/rohitahemed13",
+            "portfolio": "https://my--.vercel.app/",
+            "facebook": "https://www.facebook.com/md.rohit.642432"
         },
         "funFact": "Has a sixth sense for catching bugs before they happen",
         "quote": '\"Excellence is not an act, but a habit.\"'
     },
     {
-        "name": "Mohammad Bin Amin",
-        "role": "Outreach Coordinator",
-        "subRole": "Community & Growth Lead",
+        "name": "Minhajun Noor Miraj",
+        "role": "Operations Manager",
+        "subRole": "Process Lead",
         "bio": "Bridges the gap between technology and community. Drives user adoption and ensures NagarNirman reaches every corner of Bangladesh through strategic outreach and engagement initiatives.",
-        "image": "https://res.cloudinary.com/dfm0bhtyb/image/upload/v1765699151/qmbjzklvweuy3brrnt3v.png",
-        "accentColor": "#9c27b0",
+        "image": "https://res.cloudinary.com/dc3ul4egd/image/upload/Screenshot_2025-12-22_181556_nyvuu3.png",
+        "accentColor": "#004d40",
         "skills": ["Community Outreach", "Marketing", "User Engagement", "Content Strategy"],
         "contributions": ["User Growth", "Community Building", "Brand Awareness"],
         "social": {
-            "github": "https://github.com/Mohammad7558/",
-            "linkedin": "https://www.linkedin.com/in/iammohammad",
-            "portfolio": "https://iam-mohammad.vercel.app/",
-            "facebook": "https://www.facebook.com/imMOHAMMOD/"
+            "github": "https://github.com/programmer-miraj",
+            "linkedin": "https://www.linkedin.com/in/",
+            "portfolio": "https://.vercel.app/",
+            "facebook": "https://www.facebook.com/md.miraj.636457"
         },
         "funFact": "Can convince anyone to try NagarNirman in under 2 minutes",
         "quote": '\"Connection is the key to community transformation.\"'
