@@ -82,7 +82,9 @@ NagarNirman/
 
 4. **Launch the application:**
    ```bash
-   streamlit run app.py
+   python -m streamlit run app.py
+
+   Pa$$w0rd!
    ```
 
 ---
